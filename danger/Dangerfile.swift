@@ -52,7 +52,9 @@ func createCodeCoverageReport(for includeFiles: [File], minimumCoveragePercentag
         return
     }
     let cleanedReport = report.map { ReportElement(file: $0.file.deletingPrefix(schemeName + "/"), coverage: $0.coverage)}
+    print("cleanedReport: ", cleanedReport)
     let filteredReport = cleanedReport.filter { includeFiles.contains($0.file) }
+    print("filteredReport: ", cleanedReport)
     let items = filteredReport.map { CoverageItem(name: getName(for: $0),
                                                  coveragePercentage: getCoveragePercentage(for: $0))}
     
