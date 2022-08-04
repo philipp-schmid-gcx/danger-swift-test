@@ -38,10 +38,10 @@ struct CoverageItem {
 }
 
 func createCodeCoverageReport(for includeFiles: [File], minimumCoveragePercentage: Double) {
-    guard let schemeName = ProcessInfo.processInfo.environment["SCHEME"] else {
-        print("Aborting the creation of the Code Coverage Report - Environment variable SCHEME hasn't been set.")
-        return
-    }
+    // guard let schemeName = ProcessInfo.processInfo.environment["SCHEME"] else {
+    //     print("Aborting the creation of the Code Coverage Report - Environment variable SCHEME hasn't been set.")
+    //     return
+    // }
     let reportURL = URL(fileURLWithPath: "./report.json")
     let report: Report
     do {
@@ -51,10 +51,9 @@ func createCodeCoverageReport(for includeFiles: [File], minimumCoveragePercentag
         print("Decode report.json failed with error: \(error)")
         return
     }
-    let cleanedReport = report.map { ReportElement(file: $0.file.deletingPrefix(schemeName + "/"), coverage: $0.coverage)}
-    print("cleanedReport: ", cleanedReport)
-    let filteredReport = cleanedReport.filter { includeFiles.contains($0.file) }
-    print("filteredReport: ", cleanedReport)
+    print("report: ", report)
+    let filteredReport = report.filter { includeFiles.contains($0.file) }
+    print("filteredReport: ", filteredReport)
     let items = filteredReport.map { CoverageItem(name: getName(for: $0),
                                                  coveragePercentage: getCoveragePercentage(for: $0))}
     
