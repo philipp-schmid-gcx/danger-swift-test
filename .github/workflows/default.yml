@@ -97,9 +97,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: code-coverage-report
-          
+
       - name: Install Danger
-        run: npm install -g danger
+        run: npm install --location=global danger
 
       - name: Danger
         working-directory: ./danger

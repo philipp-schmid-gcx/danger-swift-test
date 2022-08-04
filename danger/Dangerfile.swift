@@ -14,7 +14,7 @@ if ((danger.github.pullRequest.additions ?? 0) + (danger.github.pullRequest.dele
 
 let files = danger.git.createdFiles + danger.git.modifiedFiles
 let swiftFiles = files.filter { $0.fileType == .swift }
-
+print("swiftFiles:", swiftFiles)
 if swiftFiles.isEmpty {
     print("No files found to lint")
 } else {
