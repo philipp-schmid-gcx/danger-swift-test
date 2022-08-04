@@ -14,4 +14,9 @@ class DangerTestsTests: XCTestCase {
         let service = ExampleService()
         service.bar()
     }
+
+    func testFoo() throws {
+        let service = ExampleService()
+        service.foo()
+    }
 }
