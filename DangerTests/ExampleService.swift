@@ -6,3 +6,12 @@
 //
 
 import Foundation
+struct ExampleService {
+    func foo() {
+        print("foo")
+    }
+    
+    func bar() {
+        print("bar")
+    }
+}

@@ -12,6 +12,7 @@
 		D6EC6C09289BBB8700259C9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6EC6C08289BBB8700259C9F /* Assets.xcassets */; };
 		D6EC6C0C289BBB8700259C9F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6EC6C0B289BBB8700259C9F /* Preview Assets.xcassets */; };
 		D6EC6C16289BBB8700259C9F /* DangerTestsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EC6C15289BBB8700259C9F /* DangerTestsTests.swift */; };
+		D6EC6C2F289BC1A200259C9F /* ExampleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EC6C2E289BC1A200259C9F /* ExampleService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,7 @@
 		D6EC6C0B289BBB8700259C9F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D6EC6C11289BBB8700259C9F /* DangerTestsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DangerTestsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6EC6C15289BBB8700259C9F /* DangerTestsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DangerTestsTests.swift; sourceTree = "<group>"; };
+		D6EC6C2E289BC1A200259C9F /* ExampleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			children = (
 				D6EC6C04289BBB8600259C9F /* DangerTestsApp.swift */,
 				D6EC6C06289BBB8600259C9F /* ContentView.swift */,
+				D6EC6C2E289BC1A200259C9F /* ExampleService.swift */,
 				D6EC6C08289BBB8700259C9F /* Assets.xcassets */,
 				D6EC6C0A289BBB8700259C9F /* Preview Content */,
 			);
@@ -198,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6EC6C07289BBB8600259C9F /* ContentView.swift in Sources */,
+				D6EC6C2F289BC1A200259C9F /* ExampleService.swift in Sources */,
 				D6EC6C05289BBB8600259C9F /* DangerTestsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
