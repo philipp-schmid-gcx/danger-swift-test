@@ -1,0 +1,106 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [develop, main]
+    types: [opened, reopened, ready_for_review, synchronize]
+
+env:
+  GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
+  SCHEME: DangerTests
+
+jobs:
+  bundler:
+    name: Download and Cache bundler dependencies
+    runs-on: macos-11
+    timeout-minutes: 15
+    if: github.event.pull_request.draft == false # avoids running for draft pull requests
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache fastlane and Danger dependencies
+        uses: actions/cache@v2
+        id: cache-bundler
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('./Gemfile.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache-bundler.outputs.cache-hit != 'true'
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+  unit-test:
+    name: Build and Test scheme using any available iPhone simulator
+    runs-on: macos-11
+    timeout-minutes: 30
+    needs: bundler
+    if: github.event.pull_request.draft == false # avoids running for draft pull requests
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Checkout main branch for build version update
+        run: |
+          git fetch origin main
+          git checkout main
+          git checkout ${{ github.sha }}
+          echo "Build number will be: $(expr $(git rev-list main --count) + 1)"
+
+      - name: Cache fastlane and Danger dependencies
+        uses: actions/cache@v2
+        id: cache-bundler
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('./Gemfile.lock') }}
+
+      - name: Cancelling - missing fastlane and danger dependencies
+        if: steps.cache-bundler.outputs.cache-hit != 'true'
+        uses: andymckay/cancel-action@0.2
+
+      - name: Run tests
+        run: |
+          bundle config path vendor/bundle
+          bundle exec fastlane test
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: fastlane/report.json
+  danger:
+    name: Danger
+    runs-on: macos-11
+    env:
+      DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    needs: unit-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Download code coverage results
+        uses: actions/download-artifact@v3
+        with:
+          name: code-coverage-report
+
+      - name: Install Danger
+        run: npm install --location=global danger
+
+      - name: Danger
+        working-directory: ./danger
+        run: swift run danger-swift ci --cwd ../
