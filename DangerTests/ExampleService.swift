@@ -14,4 +14,8 @@ struct ExampleService {
     func bar() {
         print("bar")
     }
+
+    func baz() {
+        print("bar")
+    }
 }
