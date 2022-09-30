@@ -45,6 +45,11 @@ func createCodeCoverageReport(for includeFiles: [File], minimumCoveragePercentag
     let reportURL = URL(fileURLWithPath: "./report.json")
     let report: Report
     do {
+        let url = URL(fileURLWithPath: "./")
+        let contents = try FileManager.default.contentsOfDirectory(atPath: url.absoluteString)
+        contents.forEach {
+            print($0)
+        }
         let data = try Data(contentsOf: reportURL)
         report = try JSONDecoder().decode(Report.self, from: data)
     } catch {
