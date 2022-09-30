@@ -48,7 +48,7 @@ func createCodeCoverageReport(for includeFiles: [File], minimumCoveragePercentag
         let data = try Data(contentsOf: reportURL)
         report = try JSONDecoder().decode(Report.self, from: data)
     } catch {
-        print("Decode report.json failed with error: \(error)")
+        print("Decode report.json at \(reportURL.absoluteString) failed with error: \(error)")
         return
     }
     print("report: ", report)
